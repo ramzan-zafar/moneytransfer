@@ -1,0 +1,109 @@
+2019-10-13 23:37:11,569 [main] [ERROR] [H2DAOFactory] populateTestData(): Error finding test script file 
+java.io.FileNotFoundException: src/test/resources/demo.sql (No such file or directory)
+	at java.io.FileInputStream.open0(Native Method)
+	at java.io.FileInputStream.open(FileInputStream.java:195)
+	at java.io.FileInputStream.<init>(FileInputStream.java:138)
+	at java.io.FileInputStream.<init>(FileInputStream.java:93)
+	at java.io.FileReader.<init>(FileReader.java:58)
+	at com.moneytransfer.dao.H2DAOFactory.populateTestData(H2DAOFactory.java:43)
+	at com.moneytransfer.MoneyTransferAPI.startSparkApplication(MoneyTransferAPI.java:36)
+	at com.moneytransfer.MoneyTransferAPI.main(MoneyTransferAPI.java:24)
+2019-10-13 23:39:06,391 [main] [ERROR] [H2DAOFactory] populateTestData(): Error populating user data: 
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "FIST_NAME" not found; SQL statement:
+
+
+INSERT INTO User (fist_name,last_name, email) VALUES ('Jane','Doe','jane@gmail.com') [42122-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:451)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.table.Table.getColumn(Table.java:708)
+	at org.h2.command.Parser.parseColumn(Parser.java:1377)
+	at org.h2.command.Parser.parseColumnList(Parser.java:1362)
+	at org.h2.command.Parser.parseInsertGivenTable(Parser.java:1731)
+	at org.h2.command.Parser.parseInsert(Parser.java:1684)
+	at org.h2.command.Parser.parsePrepared(Parser.java:891)
+	at org.h2.command.Parser.parse(Parser.java:788)
+	at org.h2.command.Parser.parse(Parser.java:760)
+	at org.h2.command.Parser.prepareCommand(Parser.java:683)
+	at org.h2.engine.Session.prepareLocal(Session.java:627)
+	at org.h2.engine.Session.prepareCommand(Session.java:565)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1292)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:217)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:205)
+	at org.h2.tools.RunScript.execute(RunScript.java:172)
+	at com.moneytransfer.dao.H2DAOFactory.populateTestData(H2DAOFactory.java:43)
+	at com.moneytransfer.MoneyTransferAPI.startSparkApplication(MoneyTransferAPI.java:36)
+	at com.moneytransfer.MoneyTransferAPI.main(MoneyTransferAPI.java:24)
+2019-10-13 23:59:26,203 [qtp1751241264-16] [ERROR] [AccountDAOImpl] transferAccountBalance(): User Transaction Failed, rollback initiated for: com.moneytransfer.model.UserTransaction@160957b
+org.h2.jdbc.JdbcSQLTimeoutException: Timeout trying to lock table {0}; SQL statement:
+SELECT * FROM Account WHERE account_id = ? FOR UPDATE [50200-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:508)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.command.Command.filterConcurrentUpdate(Command.java:333)
+	at org.h2.command.Command.executeQuery(Command.java:209)
+	at org.h2.jdbc.JdbcPreparedStatement.executeQuery(JdbcPreparedStatement.java:115)
+	at com.moneytransfer.dao.impl.AccountDAOImpl.transferAccountBalance(AccountDAOImpl.java:231)
+	at com.moneytransfer.service.AccountServiceImpl.transferMoney(AccountServiceImpl.java:74)
+	at com.moneytransfer.controller.AccountController.lambda$registerAccountApiRoutes$7(AccountController.java:96)
+	at spark.RouteImpl$1.handle(RouteImpl.java:72)
+	at spark.http.matching.Routes.execute(Routes.java:61)
+	at spark.http.matching.MatcherFilter.doFilter(MatcherFilter.java:134)
+	at spark.embeddedserver.jetty.JettyHandler.doHandle(JettyHandler.java:50)
+	at org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1568)
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:144)
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:132)
+	at org.eclipse.jetty.server.Server.handle(Server.java:503)
+	at org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:364)
+	at org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:260)
+	at org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:305)
+	at org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:103)
+	at org.eclipse.jetty.io.ChannelEndPoint$2.run(ChannelEndPoint.java:118)
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:333)
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:310)
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:168)
+	at org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:126)
+	at org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:366)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:765)
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:683)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.h2.message.DbException: Concurrent update in table "ACCOUNT": another transaction has updated or deleted the same row [90131-199]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.mvstore.db.MVTable.convertException(MVTable.java:718)
+	at org.h2.mvstore.db.MVPrimaryIndex.lockRow(MVPrimaryIndex.java:235)
+	at org.h2.mvstore.db.MVPrimaryIndex.lockRow(MVPrimaryIndex.java:227)
+	at org.h2.mvstore.db.MVTable.lockRow(MVTable.java:582)
+	at org.h2.command.dml.Select.isConditionMetForUpdate(Select.java:439)
+	at org.h2.command.dml.Select$LazyResultQueryFlat.fetchNextRow(Select.java:1885)
+	at org.h2.result.LazyResult.hasNext(LazyResult.java:101)
+	at org.h2.result.LazyResult.next(LazyResult.java:60)
+	at org.h2.command.dml.Select.queryFlat(Select.java:742)
+	at org.h2.command.dml.Select.queryWithoutCache(Select.java:884)
+	at org.h2.command.dml.Query.queryWithoutCacheLazyCheck(Query.java:151)
+	at org.h2.command.dml.Query.query(Query.java:435)
+	at org.h2.command.dml.Query.query(Query.java:397)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:145)
+	at org.h2.command.Command.executeQuery(Command.java:202)
+	... 25 more
+Caused by: org.h2.jdbc.JdbcSQLTransientException: Concurrent update in table "ACCOUNT": another transaction has updated or deleted the same row [90131-199]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:621)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:427)
+	... 41 more
+Caused by: java.lang.IllegalStateException: Map entry <table.9> with key <1> and value [1, 1, 90.0000, 'USD'] 1/0 [1, 1, 90.0000, 'USD'] is locked by tx 1 and can not be updated by tx 2 within allocated time interval 2000 ms. [1.4.199/101]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:883)
+	at org.h2.mvstore.tx.TransactionMap.set(TransactionMap.java:321)
+	at org.h2.mvstore.tx.TransactionMap.lock(TransactionMap.java:268)
+	at org.h2.mvstore.db.MVPrimaryIndex.lockRow(MVPrimaryIndex.java:233)
+	... 38 more
+2019-10-14 00:14:12,113 [qtp124159642-14] [ERROR] [UserDAOImpl] Error Inserting User :com.moneytransfer.model.User@92a8391f
+2019-10-14 00:14:30,583 [qtp124159642-10] [ERROR] [UserDAOImpl] Error Inserting User :com.moneytransfer.model.User@92a8391f
+2019-10-14 00:14:46,290 [qtp124159642-16] [ERROR] [UserDAOImpl] Error Inserting User :com.moneytransfer.model.User@92a8391f
+2019-10-14 01:30:05,141 [main] [ERROR] [AccountDAOImpl] Error Deleting account :2
+2019-10-14 01:30:05,205 [main] [ERROR] [AccountDAOImpl] Error Inserting Account  com.moneytransfer.model.Account@7a2605ce
+2019-10-14 01:40:52,837 [main] [ERROR] [AccountDAOImpl] Error Deleting account :2
+2019-10-14 01:40:52,862 [main] [ERROR] [AccountDAOImpl] Error Inserting Account  com.moneytransfer.model.Account@16fc7752
+2019-10-14 01:42:32,482 [main] [ERROR] [AccountDAOImpl] Error Deleting account :2
+2019-10-14 01:42:32,514 [main] [ERROR] [AccountDAOImpl] Error Inserting Account  com.moneytransfer.model.Account@4cb5448b
+2019-10-14 01:44:19,068 [main] [ERROR] [AccountDAOImpl] Creating account failed, no ID obtained.
+2019-10-14 01:48:27,330 [main] [ERROR] [AccountDAOImpl] Creating account failed, no ID obtained.
