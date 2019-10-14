@@ -24,7 +24,7 @@ Few example calls are given below.
 
 #### Money Transfer "POST" request
 
-localhost:8088/transfermoney?fromAccountId=1&toAccountId=2&amountToTransfer=20&currencyCode=USD
+localhost:8088/transfermoney?fromAccountId=1&toAccountId=2&amountToTransfer=20&currency=USD
 
 ### Testing
 TDD and BDD practice has been followed in developing the API in following
